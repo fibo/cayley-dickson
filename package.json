@@ -11,7 +11,12 @@
     "url": "https://github.com/fibo/cayley-dickson.git"
   },
   "keywords": [
-    "algebra"
+    "algebra",
+    "math",
+    "real",
+    "complex",
+    "quaternion",
+    "octonion"
   ],
   "author": "",
   "license": [
