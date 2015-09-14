@@ -88,4 +88,5 @@ var S = iterateCayleyDickson(real, 4)
 ```
 
   [1]: https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction "Cayley-Dickson construction"
+  [2]: http://npm.im/algebra-ring "algebra-ring"
 
