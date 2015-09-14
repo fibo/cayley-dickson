@@ -1,0 +1,31 @@
+{
+  "name": "cayley-dickson",
+  "version": "0.1.0",
+  "description": "Cayley-Dickson construction to produce a sequence of algebras over a field",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js | ./node_modules/tap-min/bin/tap-min"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fibo/cayley-dickson.git"
+  },
+  "keywords": [
+    "algebra"
+  ],
+  "author": "",
+  "license": [
+    {
+      "type": "MIT",
+      "url": "http://g14n.info/mit-license"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/fibo/cayley-dickson/issues"
+  },
+  "homepage": "http://npm.im/cayley-dickson",
+  "devDependencies": {
+    "tap-min": "^1.0.0",
+    "tape": "^4.2.0"
+  }
+}
