@@ -37,18 +37,33 @@ function arrayfy2 (operator, dim) {
 /**
  * Iterate Cayley-Disckson construction
  *
- * @params {Object} field
+ * @params {Object} given field
+ * @params {*} given.zero
+ * @params {*} given.one
+ * @params {Function} given.equality
+ * @params {Function} given.contains
+ * @params {Function} given.addition
+ * @params {Function} given.negation
+ * @params {Function} given.multiplication
+ * @params {Function} given.inversion
  * @params {Number} iterations
  *
  * @returns {Object} algebra
  */
 
-function iterateCayleyDickson (field, iterations) {
-  if (! (iterations in {0: 'R', 1: 'C', 2: 'H', 3: 'O'}))
-    throw new TypeError('Num of iterations must be 0, 1, 2 or 3')
+function iterateCayleyDickson (given, iterations) {
+  var field = ring([given.zero, given.one], given)
 
   if (iterations === 0)
     return field
+
+   var fieldZero           = field.zero,
+       fieldOne            = field.one,
+       fieldAddition       = field.addition,
+       fieldMultiplication = field.multiplication,
+       fieldNegation       = field.negation,
+       fieldDisequality    = field.disequality,
+       fieldNotContains    = field.notContains
 
   // identities
 
@@ -56,19 +71,19 @@ function iterateCayleyDickson (field, iterations) {
       zero = [],
       dim  = twoPow(iterations)
 
-  one.push(field.one)
-  zero.push(field.zero)
+  one.push(fieldOne)
+  zero.push(fieldZero)
 
   for (var i = 1; i < dim; i++) {
-    one.push(field.zero)
-    zero.push(field.zero)
+    one.push(fieldZero)
+    zero.push(fieldZero)
   }
 
   // operators
 
   function equality (a, b) {
     for (var i = 0; i < dim; i++)
-      if (field.disequality(a[i], b[i]))
+      if (fieldDisequality(a[i], b[i]))
         return false
 
     return true
@@ -76,7 +91,7 @@ function iterateCayleyDickson (field, iterations) {
 
   function contains (a) {
     for (var i = 0; i < dim; i++)
-      if (field.notContains(a[i]))
+      if (fieldNotContains(a[i]))
         return false
 
     return true
@@ -97,42 +112,28 @@ function iterateCayleyDickson (field, iterations) {
       for (i = 1; i < dim; i++)
         p.push(fieldNegation(b[i]))
 
-      console.log(b, ' -> ', p)
       return p
     }
 
     return conjugation
   }
 
-  var conjugation = buildConjugation(field.negation, iterations)
+  var conjugation = buildConjugation(fieldNegation, iterations)
 
-  function norm (a) {
-    var n       = field.zero,
-        squares = multiplication(a, conjugation(a))
-
-    for (var i = 0; i < dim; i++)
-      n = field.addition(n, squares[i])
-
-    return n
-  }
-
-  function buildMultiplication (field, iterations) {
-    var dim     = twoPow(iterations),
-        halfDim = 1
-
+  function buildMultiplication (fieldAddition, fieldNegation, fieldMultiplication, iterations) {
     if (iterations === 0)
-      return function (a, b) { return [field.multiplication(a, b)] }
-    else
-      halfDim = twoPow(iterations - 1)
+      return function (a, b) { return [fieldMultiplication(a, b)] }
 
-    var add  = arrayfy2(field.addition, halfDim),
-        conj = buildConjugation(field.negation, iterations -1),
-        mul  = buildMultiplication(field, iterations - 1),
-        neg  = arrayfy1(field.negation, halfDim)
+    var dim     = twoPow(iterations),
+        halfDim = twoPow(iterations - 1)
+
+    var add  = arrayfy2(fieldAddition, halfDim),
+        conj = buildConjugation(fieldNegation, iterations -1),
+        mul  = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations - 1),
+        neg  = arrayfy1(fieldNegation, halfDim)
 
     function multiplication (a, b) {
-      var c = [],
-          i = 0
+      var c = []
 
       //         a = (p, q)
       //         +    +  +
@@ -143,14 +144,14 @@ function iterateCayleyDickson (field, iterations) {
       var p = [], q = [],
           r = [], s = []
 
-      for (i = 0; i < halfDim; i++) {
-        p.push(a[i])
-        r.push(b[i])
+      for (var i1 = 0; i1 < halfDim; i1++) {
+        p.push(a[i1])
+        r.push(b[i1])
       }
 
-      for (i = halfDim; i < dim; i++) {
-        q.push(a[i])
-        s.push(b[i])
+      for (var i2 = halfDim; i2 < dim; i2++) {
+        q.push(a[i2])
+        s.push(b[i2])
       }
 
       // let denote conj(x) as x`
@@ -159,17 +160,14 @@ function iterateCayleyDickson (field, iterations) {
       //
       // (p, q)(r, s) = (pr - s`q, sp + qr`)
 
-      console.log(p, q, r, s)
-        console.log('conj(r)', r, conj(r))
-        console.log('mul(q,conj(r))', q, r, mul(q,conj(r)))
       var t = add(mul(p, r), neg(mul(conj(s), q))),
           u = add(mul(s, p), mul(q, conj(r)))
 
-      for (i = 0; i < halfDim; i++)
-        c.push(t[i])
+      for (var i3 = 0; i3 < halfDim; i3++)
+        c.push(t[i3])
 
-      for (i = halfDim; i < dim; i++)
-        c.push(u[i])
+      for (var i4 = 0; i4 < halfDim; i4++)
+        c.push(u[i4])
 
       return c
     }
@@ -177,7 +175,17 @@ function iterateCayleyDickson (field, iterations) {
     return multiplication
   }
 
-  var multiplication = buildMultiplication(field, iterations)
+  var multiplication = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations)
+
+  function norm (a) {
+    var n       = fieldZero,
+        squares = multiplication(a, conjugation(a))
+
+    for (var i = 0; i < dim; i++)
+      n = fieldAddition(n, squares[i])
+
+    return n
+  }
 
   function inversion (a) {
     var n = norm(a)
@@ -190,8 +198,8 @@ function iterateCayleyDickson (field, iterations) {
     return b
   }
 
-  var addition = arrayfy2(field.addition, dim),
-      negation = arrayfy1(field.negation, dim)
+  var addition = arrayfy2(fieldAddition, dim),
+      negation = arrayfy1(fieldNegation, dim)
 
   // Cayley-Dickson construction take a field as input but the result can be often a ring,
   // this means that it can be *not-commutative*.

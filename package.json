@@ -27,5 +27,8 @@
   "devDependencies": {
     "tap-min": "^1.0.0",
     "tape": "^4.2.0"
+  },
+  "dependencies": {
+    "algebra-ring": "^0.2.0"
   }
 }
