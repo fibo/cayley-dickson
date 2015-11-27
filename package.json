@@ -18,13 +18,11 @@
     "quaternion",
     "octonion"
   ],
-  "author": "",
-  "license": [
-    {
-      "type": "MIT",
-      "url": "http://g14n.info/mit-license"
-    }
-  ],
+  "author": {
+    "name": "Gianluca Casati",
+    "url": "http://g14n.info"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/fibo/cayley-dickson/issues"
   },
