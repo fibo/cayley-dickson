@@ -1,6 +1,4 @@
-
 var ring = require('algebra-ring')
-
 var twoPow = Math.pow.bind(null, 2)
 
 /**
@@ -8,14 +6,14 @@ var twoPow = Math.pow.bind(null, 2)
  */
 
 function arrayfy1 (operator, dim) {
-   return function (a) {
-     var b = []
+  return function (a) {
+    var b = []
 
-     for (var i = 0; i < dim; i++)
-       b.push(operator(a[i]))
+    for (var i = 0; i < dim; i++)
+      b.push(operator(a[i]))
 
      return b
-   }
+  }
 }
 
 /**
@@ -27,8 +25,9 @@ function arrayfy2 (operator, dim) {
 
      var c = []
 
-     for (var i = 0; i < dim; i++)
+     for (var i = 0; i < dim; i++) {
        c.push(operator(a[i], b[i]))
+     }
 
      return c
    }
@@ -54,22 +53,23 @@ function arrayfy2 (operator, dim) {
 function iterateCayleyDickson (given, iterations) {
   var field = ring([given.zero, given.one], given)
 
-  if (iterations === 0)
+  if (iterations === 0) {
     return field
+  }
 
-   var fieldZero           = field.zero,
-       fieldOne            = field.one,
-       fieldAddition       = field.addition,
-       fieldMultiplication = field.multiplication,
-       fieldNegation       = field.negation,
-       fieldDisequality    = field.disequality,
-       fieldNotContains    = field.notContains
+  var fieldZero = field.zero
+  var fieldOne = field.one
+  var fieldAddition = field.addition
+  var fieldMultiplication = field.multiplication
+  var fieldNegation = field.negation
+  var fieldDisequality = field.disequality
+  var fieldNotContains = field.notContains
 
   // identities
 
-  var one  = [],
-      zero = [],
-      dim  = twoPow(iterations)
+  var one = []
+  var zero = []
+  var dim = twoPow(iterations)
 
   one.push(fieldOne)
   zero.push(fieldZero)
@@ -82,35 +82,40 @@ function iterateCayleyDickson (given, iterations) {
   // operators
 
   function equality (a, b) {
-    for (var i = 0; i < dim; i++)
-      if (fieldDisequality(a[i], b[i]))
+    for (var i = 0; i < dim; i++) {
+      if (fieldDisequality(a[i], b[i])) {
         return false
+      }
+    }
 
     return true
   }
 
   function contains (a) {
-    for (var i = 0; i < dim; i++)
-      if (fieldNotContains(a[i]))
+    for (var i = 0; i < dim; i++) {
+      if (fieldNotContains(a[i])) {
         return false
+      }
+    }
 
     return true
   }
 
   function buildConjugation (fieldNegation, iterations) {
-    if (iterations === 0)
+    if (iterations === 0) {
       return function (a) { return a }
+    }
 
     var dim = twoPow(iterations)
 
     // b -> p looks like complex conjugation simmetry (:
     function conjugation (b) {
-      var p = [b[0]],
-          i
+      var p = [b[0]]
 
       // First, copy half of b into q.
-      for (i = 1; i < dim; i++)
+      for (var i = 1; i < dim; i++) {
         p.push(fieldNegation(b[i]))
+      }
 
       return p
     }
@@ -121,16 +126,17 @@ function iterateCayleyDickson (given, iterations) {
   var conjugation = buildConjugation(fieldNegation, iterations)
 
   function buildMultiplication (fieldAddition, fieldNegation, fieldMultiplication, iterations) {
-    if (iterations === 0)
+    if (iterations === 0) {
       return function (a, b) { return [fieldMultiplication(a, b)] }
+    }
 
-    var dim     = twoPow(iterations),
-        halfDim = twoPow(iterations - 1)
+    var dim = twoPow(iterations)
+    var halfDim = twoPow(iterations - 1)
 
-    var add  = arrayfy2(fieldAddition, halfDim),
-        conj = buildConjugation(fieldNegation, iterations -1),
-        mul  = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations - 1),
-        neg  = arrayfy1(fieldNegation, halfDim)
+    var add  = arrayfy2(fieldAddition, halfDim)
+    var conj = buildConjugation(fieldNegation, iterations -1)
+    var mul  = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations - 1)
+    var neg  = arrayfy1(fieldNegation, halfDim)
 
     function multiplication (a, b) {
       var c = []

@@ -1,17 +1,15 @@
-
-var iterateCayleyDickson = require('cayley-dickson'),
-    ring          = require('algebra-ring'),
-    test          = require('tape')
+var iterateCayleyDickson = require('cayley-dickson')
+var test = require('tape')
 
 var real = {
   zero: 0,
-  one : 1,
-  equality       : function equality (a, b) { return a === b },
-  contains       : function contains (a) { return (typeof a === 'number' && isFinite(a)) },
-  addition       : function addition (a, b) { return a + b },
-  negation       : function negation (a) { return -a },
-  multiplication : function multiplication (a, b) { return a * b },
-  inversion      : function inversion (a) { return 1 / a }
+  one: 1,
+  equality: function equality (a, b) { return a === b },
+  contains: function contains (a) { return (typeof a === 'number' && isFinite(a)) },
+  addition: function addition (a, b) { return a + b },
+  negation: function negation (a) { return -a },
+  multiplication: function multiplication (a, b) { return a * b },
+  inversion: function inversion (a) { return 1 / a }
 }
 
 test('cayley-dickson', function (t) {
@@ -46,12 +44,11 @@ test('cayley-dickson', function (t) {
   t.deepEqual(C.inversion([0, 2]), [0, -0.5])
 
   // Quaternion numbers.
-  var H = iterateCayleyDickson(real, 2)
+  // TODO var H = iterateCayleyDickson(real, 2)
 
   // Octonion numbers.
-  var O = iterateCayleyDickson(real, 3)
+  // TODO var O = iterateCayleyDickson(real, 3)
 
   // Sedenion numbers.
-  var S = iterateCayleyDickson(real, 4)
+  // TODO var S = iterateCayleyDickson(real, 4)
 })
-

@@ -1,7 +1,8 @@
 # cayley-dickson
 
-> [Cayley-Dickson construction][1] to produce a sequence of algebras over a field
+> implements [Cayley-Dickson construction][1] to produce a sequence of algebras over a field
 
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 ## Usage
 
@@ -58,7 +59,7 @@ C.division([5, 0], [1, 2]) // [1, -2]
 C.inversion([0, 2]) // [0, -0.5]
 ```
 
-Second iteration gives Quaternion numbers, usually denoted as *H* in honour of sir Hamilton.
+Second iteration gives [Quaternion numbers](https://en.wikipedia.org/wiki/Quaternion), usually denoted as *H* in honour of sir Hamilton.
 Here you loose commutativity.
 They are used in computer graphics cause rotations are far easier to manipulate in this land.
 
@@ -69,7 +70,7 @@ They are used in computer graphics cause rotations are far easier to manipulate 
 var H = iterateCayleyDickson(real, 2)
 ```
 
-Third iteration gives Octonion numbers.
+Third iteration gives [Octonion numbers](https://en.wikipedia.org/wiki/Octonion).
 Here you loose associativity.
 A byte could be seen as an octonion of bits, which should define a new kind of bit operator.
 
@@ -80,7 +81,7 @@ A byte could be seen as an octonion of bits, which should define a new kind of b
 var O = iterateCayleyDickson(real, 3)
 ```
 
-Fourth iteration gives Sedenions, that are out of my scope sincerely. They are not a division ring, there are elements that divide zero :@
+Fourth iteration gives [Sedenion numbers](https://en.wikipedia.org/wiki/Sedenion), that are out of my scope sincerely. They are not a division ring, there are elements that divide zero 😱.
 
 ```
 // Sedenion numbers.
