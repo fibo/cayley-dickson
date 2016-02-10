@@ -1,6 +1,6 @@
 {
   "name": "cayley-dickson",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "implements Cayley-Dickson construction to produce a sequence of algebras over a field",
   "main": "index.js",
   "scripts": {
