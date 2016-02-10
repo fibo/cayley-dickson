@@ -9,10 +9,11 @@ function arrayfy1 (operator, dim) {
   return function (a) {
     var b = []
 
-    for (var i = 0; i < dim; i++)
+    for (var i = 0; i < dim; i++) {
       b.push(operator(a[i]))
+    }
 
-     return b
+    return b
   }
 }
 
@@ -21,16 +22,15 @@ function arrayfy1 (operator, dim) {
  */
 
 function arrayfy2 (operator, dim) {
-   return function (a, b) {
+  return function (a, b) {
+    var c = []
 
-     var c = []
+    for (var i = 0; i < dim; i++) {
+      c.push(operator(a[i], b[i]))
+    }
 
-     for (var i = 0; i < dim; i++) {
-       c.push(operator(a[i], b[i]))
-     }
-
-     return c
-   }
+    return c
+  }
 }
 
 /**
@@ -133,10 +133,10 @@ function iterateCayleyDickson (given, iterations) {
     var dim = twoPow(iterations)
     var halfDim = twoPow(iterations - 1)
 
-    var add  = arrayfy2(fieldAddition, halfDim)
-    var conj = buildConjugation(fieldNegation, iterations -1)
-    var mul  = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations - 1)
-    var neg  = arrayfy1(fieldNegation, halfDim)
+    var add = arrayfy2(fieldAddition, halfDim)
+    var conj = buildConjugation(fieldNegation, iterations - 1)
+    var mul = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations - 1)
+    var neg = arrayfy1(fieldNegation, halfDim)
 
     function multiplication (a, b) {
       var c = []
@@ -147,8 +147,10 @@ function iterateCayleyDickson (given, iterations) {
       //         =    =  =
       // a + b = c = (t, u)
 
-      var p = [], q = [],
-          r = [], s = []
+      var p = []
+      var q = []
+      var r = []
+      var s = []
 
       for (var i1 = 0; i1 < halfDim; i1++) {
         p.push(a[i1])
@@ -166,14 +168,16 @@ function iterateCayleyDickson (given, iterations) {
       //
       // (p, q)(r, s) = (pr - s`q, sp + qr`)
 
-      var t = add(mul(p, r), neg(mul(conj(s), q))),
-          u = add(mul(s, p), mul(q, conj(r)))
+      var t = add(mul(p, r), neg(mul(conj(s), q)))
+      var u = add(mul(s, p), mul(q, conj(r)))
 
-      for (var i3 = 0; i3 < halfDim; i3++)
+      for (var i3 = 0; i3 < halfDim; i3++) {
         c.push(t[i3])
+      }
 
-      for (var i4 = 0; i4 < halfDim; i4++)
+      for (var i4 = 0; i4 < halfDim; i4++) {
         c.push(u[i4])
+      }
 
       return c
     }
@@ -184,43 +188,44 @@ function iterateCayleyDickson (given, iterations) {
   var multiplication = buildMultiplication(fieldAddition, fieldNegation, fieldMultiplication, iterations)
 
   function norm (a) {
-    var n       = fieldZero,
-        squares = multiplication(a, conjugation(a))
+    var n = fieldZero
+    var squares = multiplication(a, conjugation(a))
 
-    for (var i = 0; i < dim; i++)
+    for (var i = 0; i < dim; i++) {
       n = fieldAddition(n, squares[i])
+    }
 
     return n
   }
 
   function inversion (a) {
     var n = norm(a)
-
     var b = conjugation(a)
 
-    for (var i = 0; i < dim; i++)
+    for (var i = 0; i < dim; i++) {
       b[i] = field.division(b[i], n)
+    }
 
     return b
   }
 
-  var addition = arrayfy2(fieldAddition, dim),
-      negation = arrayfy1(fieldNegation, dim)
+  var addition = arrayfy2(fieldAddition, dim)
+  var negation = arrayfy1(fieldNegation, dim)
 
   // Cayley-Dickson construction take a field as input but the result can be often a ring,
   // this means that it can be *not-commutative*.
   // To elevate it to an algebra, we need a bilinear form wich is given by the norm.
   var algebra = ring([zero, one], {
-    contains       : contains,
-    equality       : equality,
-    addition       : addition,
-    negation       : negation,
-    multiplication : multiplication,
-    inversion      : inversion
+    contains: contains,
+    equality: equality,
+    addition: addition,
+    negation: negation,
+    multiplication: multiplication,
+    inversion: inversion
   })
 
   algebra.conjugation = conjugation
-  algebra.norm        = norm
+  algebra.norm = norm
 
   return algebra
 }
