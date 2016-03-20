@@ -13,7 +13,7 @@ var real = {
 }
 
 test('cayley-dickson', function (t) {
-  t.plan(20)
+  t.plan(24)
 
   // Real numbers.
   var R = iterateCayleyDickson(real, 0)
@@ -28,6 +28,11 @@ test('cayley-dickson', function (t) {
   t.equal(R.multiplication(-3, 2), -6)
   t.equal(R.division(10, 2), 5)
   t.equal(R.inversion(2), 0.5)
+
+  t.equal(R.addition(1, 2, 3), 6)
+  t.equal(R.subtraction(10, 5, 5, 5), -5)
+  t.equal(R.multiplication(2, 3, 4, 5), 120)
+  t.equal(R.division(36, 2, 3), 6)
 
   // Complex numbers.
   var C = iterateCayleyDickson(real, 1)

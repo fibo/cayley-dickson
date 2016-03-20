@@ -41,6 +41,15 @@ R.division(10, 2) // 5
 R.inversion(2) // 0.5
 ```
 
+Binary operators accepts more than two arguments
+
+```
+R.addition(1, 2, 3) // 6
+R.subtraction(10, 5, 5, 5) // -5
+R.multiplication(2, 3, 4, 5) // 120
+R.division(36, 2, 3) // 6
+```
+
 First iteration gives Complex numbers, they are a field like the Real numbers.
 
 ```
