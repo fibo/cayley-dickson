@@ -51,30 +51,32 @@ function arrayfy2 (operator, dim) {
  */
 
 function iterateCayleyDickson (given, iterations) {
-  var field = ring([given.zero, given.one], given)
+  'use strict'
+
+  const field = ring([given.zero, given.one], given)
 
   if (iterations === 0) {
     return field
   }
 
-  var fieldZero = field.zero
-  var fieldOne = field.one
-  var fieldAddition = field.addition
-  var fieldMultiplication = field.multiplication
-  var fieldNegation = field.negation
-  var fieldDisequality = field.disequality
-  var fieldNotContains = field.notContains
+  const fieldZero = field.zero
+  const fieldOne = field.one
+  const fieldAddition = field.addition
+  const fieldMultiplication = field.multiplication
+  const fieldNegation = field.negation
+  const fieldDisequality = field.disequality
+  const fieldNotContains = field.notContains
 
   // identities
 
-  var one = []
-  var zero = []
-  var dim = twoPow(iterations)
+  let one = []
+  let zero = []
+  const dim = twoPow(iterations)
 
   one.push(fieldOne)
   zero.push(fieldZero)
 
-  for (var i = 1; i < dim; i++) {
+  for (let i = 1; i < dim; i++) {
     one.push(fieldZero)
     zero.push(fieldZero)
   }
@@ -82,7 +84,7 @@ function iterateCayleyDickson (given, iterations) {
   // operators
 
   function equality (a, b) {
-    for (var i = 0; i < dim; i++) {
+    for (let i = 0; i < dim; i++) {
       if (fieldDisequality(a[i], b[i])) {
         return false
       }
@@ -92,7 +94,7 @@ function iterateCayleyDickson (given, iterations) {
   }
 
   function contains (a) {
-    for (var i = 0; i < dim; i++) {
+    for (let i = 0; i < dim; i++) {
       if (fieldNotContains(a[i])) {
         return false
       }
@@ -110,10 +112,10 @@ function iterateCayleyDickson (given, iterations) {
 
     // b -> p looks like complex conjugation simmetry (:
     function conjugation (b) {
-      var p = [b[0]]
+      let p = [b[0]]
 
       // First, copy half of b into q.
-      for (var i = 1; i < dim; i++) {
+      for (let i = 1; i < dim; i++) {
         p.push(fieldNegation(b[i]))
       }
 
@@ -123,7 +125,7 @@ function iterateCayleyDickson (given, iterations) {
     return conjugation
   }
 
-  var conjugation = buildConjugation(fieldNegation, iterations)
+  const conjugation = buildConjugation(fieldNegation, iterations)
 
   function buildMultiplication (fieldAddition, fieldNegation, fieldMultiplication, iterations) {
     if (iterations === 0) {
