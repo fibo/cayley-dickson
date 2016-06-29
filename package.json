@@ -2,12 +2,14 @@
   "name": "cayley-dickson",
   "version": "0.3.0",
   "description": "implements Cayley-Dickson construction to produce a sequence of algebras over a field",
-  "main": "index.js",
+  "main": "cayley-dickson.js",
   "scripts": {
     "check-deps": "npm outdated",
     "lint": "standard",
     "postversion": "git push origin v${npm_package_version}; npm publish; git push origin master",
-    "test": "tape test.js"
+    "postupdate-deps": "npm test && git commit -am ':arrow_up: updated deps' || git checkout -- package.json",
+    "test": "NODE_PATH=. tape test.js",
+    "update-deps": "npm update --save --dev"
   },
   "pre-commit": [
     "lint",
