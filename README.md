@@ -1,31 +1,45 @@
 # cayley-dickson
 
-> implements [Cayley-Dickson construction][1] to produce a sequence of algebras over a field
+> implements [Cayley-Dickson construction][Cayley-Dickson] to produce a sequence of algebras over a field
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 ## Usage
 
-Define real operators, see also [algebra-ring][2]. Note that you could use any operators definition, for instance using a *big numbers* lib.
+Every code snippet below it is intended to be contained in a [single file](https://github.com/fibo/cayley-dickson/blob/master/test.js).
 
-```
+Define real operators, see also [algebra-ring]. Note that you could use any operators definition, for example using a *big numbers* lib.
+
+```javascript
 var real = {
   zero: 0,
   one : 1,
-  equality       : function equality (a, b) { return a === b },
-  contains       : function contains (a) { return (typeof a === 'number' && isFinite(a)) },
-  addition       : function addition (a, b) { return a + b },
-  negation       : function negation (a) { return -a },
-  multiplication : function multiplication (a, b) { return a * b },
-  inversion      : function inversion (a) { return 1 / a }
+  equality: function equality (a, b) { return a === b },
+  contains: function contains (a) { return (typeof a === 'number' && isFinite(a)) },
+  addition: function addition (a, b) { return a + b },
+  negation: function negation (a) { return -a },
+  multiplication: function multiplication (a, b) { return a * b },
+  inversion: function inversion (a) { return 1 / a }
 }
 ```
 
-Now you can use [Cayley-Dickson][1] constructions to build algebras. Every iteration doubles the dimension. Let's take a trip through Cayley-Dickson algebras.
+Import cayley-dickson.
 
-Well, iteration 0 gives the common Real numbers. The result is just the return value of the [algebra-ring][2] function, nothing really exciting.
-
+```javascript
+var iterateCayleyDickson = require('cayley-dickson')
 ```
+
+Now you can use [Cayley-Dickson] constructions to build algebras.
+Every iteration doubles the dimension.
+Let's take a trip through Cayley-Dickson algebras.
+
+### Real
+
+> start from here
+
+Well, iteration 0 gives the common Real numbers. The result is just the return value of the [algebra-ring] function, nothing really exciting.
+
+```javascript
 // Real numbers.
 var R = iterateCayleyDickson(real, 0)
 
@@ -41,18 +55,13 @@ R.division(10, 2) // 5
 R.inversion(2) // 0.5
 ```
 
-Binary operators accepts more than two arguments
+### Complex
 
-```
-R.addition(1, 2, 3) // 6
-R.subtraction(10, 5, 5, 5) // -5
-R.multiplication(2, 3, 4, 5) // 120
-R.division(36, 2, 3) // 6
-```
+> a beautiful plane
 
 First iteration gives Complex numbers, they are a field like the Real numbers.
 
-```
+```javascript
 // Complex numbers.
 var C = iterateCayleyDickson(real, 1)
 
@@ -68,35 +77,46 @@ C.division([5, 0], [1, 2]) // [1, -2]
 C.inversion([0, 2]) // [0, -0.5]
 ```
 
-Second iteration gives [Quaternion numbers](https://en.wikipedia.org/wiki/Quaternion), usually denoted as *H* in honour of sir Hamilton.
-Here you loose commutativity.
+### Quaternion
+
+> here you loose commutativity
+
+Second iteration gives [Quaternion numbers](https://en.wikipedia.org/wiki/Quaternion),
+usually denoted as ℍ in honour of sir Hamilton.
 They are used in computer graphics cause rotations are far easier to manipulate in this land.
 
 ** TODO ** add tests and examples
 
-```
+```javascript
 // Quaternion numbers.
 var H = iterateCayleyDickson(real, 2)
 ```
 
+### Octonion
+
+> here you loose associativity
+
 Third iteration gives [Octonion numbers](https://en.wikipedia.org/wiki/Octonion).
-Here you loose associativity.
 A byte could be seen as an octonion of bits, which should define a new kind of bit operator.
 
 ** TODO ** add tests and examples
 
-```
+```javascript
 // Octonion numbers.
 var O = iterateCayleyDickson(real, 3)
 ```
 
-Fourth iteration gives [Sedenion numbers](https://en.wikipedia.org/wiki/Sedenion), that are out of my scope sincerely. They are not a division ring, there are elements that divide zero 😱.
+### Sedenion
 
-```
+> hic sunt leones
+
+Fourth iteration gives [Sedenion numbers](https://en.wikipedia.org/wiki/Sedenion),
+that are out of my scope sincerely. They are not a division ring, there are elements that divide zero 😱.
+
+```javascript
 // Sedenion numbers.
 var S = iterateCayleyDickson(real, 4)
 ```
 
-  [1]: https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction "Cayley-Dickson construction"
-  [2]: http://npm.im/algebra-ring "algebra-ring"
-
+[Cayley-Dickson]: https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction "Cayley-Dickson construction"
+[algebra-ring]: http://npm.im/algebra-ring "algebra-ring"
