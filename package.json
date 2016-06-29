@@ -39,10 +39,11 @@
   "homepage": "http://npm.im/cayley-dickson",
   "devDependencies": {
     "pre-commit": "^1.1.2",
-    "standard": "^6.0.4",
+    "standard": "^7.0.0",
     "tape": "^4.2.0"
   },
   "dependencies": {
-    "algebra-ring": "^0.4.0"
+    "algebra-ring": "^0.4.0",
+    "standard": "^7.1.2"
   }
 }
