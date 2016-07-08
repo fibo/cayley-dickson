@@ -2,7 +2,24 @@
 
 > implements [Cayley-Dickson construction][Cayley-Dickson] to produce a sequence of algebras over a field
 
+[Installation](#installation) |
+[Usage](#usage) :
+[Real](#real) >
+[Complex](#complex) >
+[Quaternion](#quaternion) >
+[Octonion](#octonion) >
+[Sedenion](#sedenion) |
+[License](#license)
+
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+## Installation
+
+With [npm](https://www.npmjs.com) do
+
+```bash
+npm install cayley-dickson
+```
 
 ## Usage
 
@@ -132,6 +149,10 @@ that are out of my scope sincerely. They are not a division ring, there are elem
 // Sedenion numbers.
 var S = iterateCayleyDickson(real, 4)
 ```
+
+## License
+
+[MIT](http://g14n.info/mit-license)
 
 [Cayley-Dickson]: https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction "Cayley-Dickson construction"
 [algebra-ring]: http://npm.im/algebra-ring "algebra-ring"
