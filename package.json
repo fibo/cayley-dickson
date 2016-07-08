@@ -48,7 +48,7 @@
     "tape": "^4.2.0"
   },
   "dependencies": {
-    "algebra-ring": "^0.4.0",
+    "algebra-ring": "^0.5.0",
     "standard": "^7.1.2"
   }
 }
