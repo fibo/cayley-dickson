@@ -9,13 +9,17 @@
     "postversion": "git push origin v${npm_package_version}; npm publish; git push origin master",
     "postupdate-deps": "npm test && git commit -am ':arrow_up: updated deps' || git checkout -- package.json",
     "test": "NODE_PATH=. tape test.js",
-    "update-deps": "npm update --save --dev"
+    "update-deps": "npm update --save --dev",
+    "watch": "npm-watch"
   },
   "pre-commit": [
     "lint",
     "test",
     "check-deps"
   ],
+  "watch": {
+    "test": "*.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fibo/cayley-dickson.git"
@@ -38,6 +42,7 @@
   },
   "homepage": "http://npm.im/cayley-dickson",
   "devDependencies": {
+    "npm-watch": "^0.1.4",
     "pre-commit": "^1.1.2",
     "standard": "^7.0.0",
     "tape": "^4.2.0"

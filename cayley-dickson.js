@@ -233,4 +233,3 @@ function iterateCayleyDickson (given, iterations) {
 }
 
 module.exports = iterateCayleyDickson
-

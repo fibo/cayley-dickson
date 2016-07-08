@@ -69,7 +69,7 @@ C.equality([1, 2], [1, 2]) // true
 C.disequality([1, 2], [0, 1]) // true
 C.contains([Math.PI, 2]) // true
 C.notContains(1) // true
-C.addition([1, 2], [-1, 2]) // [0, 4]
+C.addition([1, 2], [-1, 2], [2, 2]) // [2, 6]
 C.subtraction([1, 1], [2, 3]) // [-1, -2]
 C.negation([1, 2]) // [-1, -2]
 C.multiplication([1, 2], [1, -2]) // [5, 0]
@@ -85,11 +85,26 @@ Second iteration gives [Quaternion numbers](https://en.wikipedia.org/wiki/Quater
 usually denoted as ℍ in honour of sir Hamilton.
 They are used in computer graphics cause rotations are far easier to manipulate in this land.
 
-** TODO ** add tests and examples
+Let's check the famous formula for Quaternion multiplication `ijk = i² = j² = k² = -1`
+
+![ijk-1]
 
 ```javascript
 // Quaternion numbers.
 var H = iterateCayleyDickson(real, 2)
+
+var minusOne = new H([-1, 0, 0, 0])
+j
+var i = new H([0, 1, 0, 0])
+var j = new H([0, 0, 1, 0])
+var k = new H([0, 0, 0, 1])
+
+H.equality(H.multiplication(i, i), minusOne) // true
+H.equality(H.multiplication(j, j), minusOne) // true
+H.equality(H.multiplication(k, k), minusOne) // true
+
+// ijk - 1 = 0
+H.subtraction(H.multiplication(i, j, k), minusOne) // [0, 0, 0, 0]
 ```
 
 ### Octonion
@@ -120,3 +135,4 @@ var S = iterateCayleyDickson(real, 4)
 
 [Cayley-Dickson]: https://en.wikipedia.org/wiki/Cayley%E2%80%93Dickson_construction "Cayley-Dickson construction"
 [algebra-ring]: http://npm.im/algebra-ring "algebra-ring"
+[ijk-1]: http://i.stack.imgur.com/eYs5r.jpg "ijk-1"
