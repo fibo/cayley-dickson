@@ -1,5 +1,5 @@
-var ring = require('algebra-ring')
-var twoPow = Math.pow.bind(null, 2)
+const ring = require('algebra-ring')
+const twoPow = Math.pow.bind(null, 2)
 
 /**
  * Turn unary operator on single value to operator on n values.
@@ -191,7 +191,7 @@ function iterateCayleyDickson (given, iterations) {
 
   function norm (a) {
     var n = fieldZero
-    var squares = multiplication(a, conjugation(a))
+    const squares = multiplication(a, conjugation(a))
 
     for (var i = 0; i < dim; i++) {
       n = fieldAddition(n, squares[i])
@@ -201,8 +201,8 @@ function iterateCayleyDickson (given, iterations) {
   }
 
   function inversion (a) {
-    var n = norm(a)
-    var b = conjugation(a)
+    const n = norm(a)
+    const b = conjugation(a)
 
     for (var i = 0; i < dim; i++) {
       b[i] = field.division(b[i], n)
@@ -211,19 +211,19 @@ function iterateCayleyDickson (given, iterations) {
     return b
   }
 
-  var addition = arrayfy2(fieldAddition, dim)
-  var negation = arrayfy1(fieldNegation, dim)
+  const addition = arrayfy2(fieldAddition, dim)
+  const negation = arrayfy1(fieldNegation, dim)
 
   // Cayley-Dickson construction take a field as input but the result can be often a ring,
   // this means that it can be *not-commutative*.
-  // To elevate it to an algebra, we need a bilinear form wich is given by the norm.
+  // To elevate it to an algebra, we need a bilinear form which is given by the norm.
   var algebra = ring([zero, one], {
-    contains: contains,
-    equality: equality,
-    addition: addition,
-    negation: negation,
-    multiplication: multiplication,
-    inversion: inversion
+    contains,
+    equality,
+    addition,
+    negation,
+    multiplication,
+    inversion
   })
 
   algebra.conjugation = conjugation

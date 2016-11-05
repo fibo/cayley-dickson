@@ -1,19 +1,19 @@
-var iterateCayleyDickson = require('cayley-dickson')
-var test = require('tape')
+const iterateCayleyDickson = require('cayley-dickson')
+const test = require('tape')
 
-var real = {
+const real = {
   zero: 0,
   one: 1,
-  equality: function equality (a, b) { return a === b },
-  contains: function contains (a) { return (typeof a === 'number' && isFinite(a)) },
-  addition: function addition (a, b) { return a + b },
-  negation: function negation (a) { return -a },
-  multiplication: function multiplication (a, b) { return a * b },
-  inversion: function inversion (a) { return 1 / a }
+  equality: (a, b) => (a === b),
+  contains: (a) => (typeof a === 'number' && isFinite(a)),
+  addition: (a, b) => (a + b),
+  negation: (a) => -a,
+  multiplication: (a, b) => (a * b),
+  inversion: (a) => (1 / a)
 }
 
-test('Real', function (t) {
-  var R = iterateCayleyDickson(real, 0)
+test('Real', (t) => {
+  const R = iterateCayleyDickson(real, 0)
 
   t.ok(R.equality(2, 2))
   t.ok(R.disequality(1, 2))
@@ -34,8 +34,8 @@ test('Real', function (t) {
   t.end()
 })
 
-test('Complex', function (t) {
-  var C = iterateCayleyDickson(real, 1)
+test('Complex', (t) => {
+  const C = iterateCayleyDickson(real, 1)
 
   t.ok(C.equality([1, 2], [1, 2]))
   t.ok(C.disequality([1, 2], [0, 1]))
@@ -47,18 +47,19 @@ test('Complex', function (t) {
   t.deepEqual(C.multiplication([1, 2], [1, -2]), [5, 0])
   t.deepEqual(C.division([5, 0], [1, 2]), [1, -2])
   t.deepEqual(C.inversion([0, 2]), [0, -0.5])
+  t.deepEqual(C.conjugation([1, 2]), [1, -2])
 
   t.end()
 })
 
-test('Quaternion', function (t) {
-  var H = iterateCayleyDickson(real, 2)
+test('Quaternion', (t) => {
+  const H = iterateCayleyDickson(real, 2)
 
-  var minusOne = [-1, 0, 0, 0]
+  const minusOne = [-1, 0, 0, 0]
 
-  var i = [0, 1, 0, 0]
-  var j = [0, 0, 1, 0]
-  var k = [0, 0, 0, 1]
+  const i = [0, 1, 0, 0]
+  const j = [0, 0, 1, 0]
+  const k = [0, 0, 0, 1]
 
   t.ok(H.equality(H.multiplication(i, i), minusOne))
   t.ok(H.equality(H.multiplication(j, j), minusOne))
@@ -66,11 +67,21 @@ test('Quaternion', function (t) {
 
   t.deepEqual(H.subtraction(H.multiplication(i, j, k), minusOne), [0, 0, 0, 0])
 
+  t.deepEqual(H.conjugation([1, 2, 3, 4]), [1, -2, -3, -4])
+
   t.end()
 })
 
-// Octonion numbers.
-// TODO var O = iterateCayleyDickson(real, 3)
+test('Octonion', (t) => {
+  const O = iterateCayleyDickson(real, 3)
 
-// Sedenion numbers.
-// TODO var S = iterateCayleyDickson(real, 4)
+  const minusOne = [-1, 0, 0, 0, 0, 0, 0, 0]
+
+  const i1 = [0, 1, 0, 0, 0, 0, 0, 0]
+
+  t.ok(O.equality(O.multiplication(i1, i1), minusOne))
+
+  t.deepEqual(O.conjugation([1, 2, 3, 4, 5, 6, 7, 8]), [1, -2, -3, -4, -5, -6, -7, -8])
+
+  t.end()
+})
