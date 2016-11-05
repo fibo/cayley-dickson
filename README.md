@@ -28,22 +28,22 @@ Every code snippet below it is intended to be contained in a [single file](https
 Define real operators, see also [algebra-ring]. Note that you could use any operators definition, for example using a *big numbers* lib.
 
 ```javascript
-var real = {
+const real = {
   zero: 0,
-  one : 1,
-  equality: function equality (a, b) { return a === b },
-  contains: function contains (a) { return (typeof a === 'number' && isFinite(a)) },
-  addition: function addition (a, b) { return a + b },
-  negation: function negation (a) { return -a },
-  multiplication: function multiplication (a, b) { return a * b },
-  inversion: function inversion (a) { return 1 / a }
+  one: 1,
+  equality: (a, b) => (a === b),
+  contains: (a) => (typeof a === 'number' && isFinite(a)),
+  addition: (a, b) => (a + b),
+  negation: (a) => -a,
+  multiplication: (a, b) => (a * b),
+  inversion: (a) => (1 / a)
 }
 ```
 
 Import cayley-dickson.
 
 ```javascript
-var iterateCayleyDickson = require('cayley-dickson')
+const iterateCayleyDickson = require('cayley-dickson')
 ```
 
 Now you can use [Cayley-Dickson] constructions to build algebras.
@@ -58,7 +58,7 @@ Well, iteration 0 gives the common Real numbers. The result is just the return v
 
 ```javascript
 // Real numbers.
-var R = iterateCayleyDickson(real, 0)
+const R = iterateCayleyDickson(real, 0)
 
 R.equality(2, 2) // true
 R.disequality(1, 2) // true
@@ -80,7 +80,7 @@ First iteration gives Complex numbers, they are a field like the Real numbers.
 
 ```javascript
 // Complex numbers.
-var C = iterateCayleyDickson(real, 1)
+const C = iterateCayleyDickson(real, 1)
 
 C.equality([1, 2], [1, 2]) // true
 C.disequality([1, 2], [0, 1]) // true
@@ -92,6 +92,7 @@ C.negation([1, 2]) // [-1, -2]
 C.multiplication([1, 2], [1, -2]) // [5, 0]
 C.division([5, 0], [1, 2]) // [1, -2]
 C.inversion([0, 2]) // [0, -0.5]
+C.conjugation([1, 2]) // [1, -2]
 ```
 
 ### Quaternion
@@ -108,13 +109,13 @@ Let's check the famous formula for Quaternion multiplication `ijk = i² = j² = 
 
 ```javascript
 // Quaternion numbers.
-var H = iterateCayleyDickson(real, 2)
+const H = iterateCayleyDickson(real, 2)
 
-var minusOne = new H([-1, 0, 0, 0])
+const minusOne = new H([-1, 0, 0, 0])
 j
-var i = new H([0, 1, 0, 0])
-var j = new H([0, 0, 1, 0])
-var k = new H([0, 0, 0, 1])
+const i = new H([0, 1, 0, 0])
+const j = new H([0, 0, 1, 0])
+const k = new H([0, 0, 0, 1])
 
 H.equality(H.multiplication(i, i), minusOne) // true
 H.equality(H.multiplication(j, j), minusOne) // true
@@ -131,11 +132,17 @@ H.subtraction(H.multiplication(i, j, k), minusOne) // [0, 0, 0, 0]
 Third iteration gives [Octonion numbers](https://en.wikipedia.org/wiki/Octonion).
 A byte could be seen as an octonion of bits, which should define a new kind of bit operator.
 
-** TODO ** add tests and examples
-
 ```javascript
 // Octonion numbers.
-var O = iterateCayleyDickson(real, 3)
+const O = iterateCayleyDickson(real, 3)
+
+const minusOne = [-1, 0, 0, 0, 0, 0, 0, 0]
+
+const i1 = [0, 1, 0, 0, 0, 0, 0, 0]
+
+O.equality(O.multiplication(i1, i1), minusOne) // true
+
+O.conjugation([1, 2, 3, 4, 5, 6, 7, 8]) // [1, -2, -3, -4, -5, -6, -7, -8]
 ```
 
 ### Sedenion
@@ -147,7 +154,7 @@ that are out of my scope sincerely. They are not a division ring, there are elem
 
 ```javascript
 // Sedenion numbers.
-var S = iterateCayleyDickson(real, 4)
+const S = iterateCayleyDickson(real, 4)
 ```
 
 ## License
