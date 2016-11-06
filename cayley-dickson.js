@@ -51,8 +51,6 @@ function arrayfy2 (operator, dim) {
  */
 
 function iterateCayleyDickson (given, iterations) {
-  'use strict'
-
   const field = ring([given.zero, given.one], given)
 
   if (iterations === 0) {
@@ -69,14 +67,14 @@ function iterateCayleyDickson (given, iterations) {
 
   // identities
 
-  let one = []
-  let zero = []
+  var one = []
+  var zero = []
   const dim = twoPow(iterations)
 
   one.push(fieldOne)
   zero.push(fieldZero)
 
-  for (let i = 1; i < dim; i++) {
+  for (var i = 1; i < dim; i++) {
     one.push(fieldZero)
     zero.push(fieldZero)
   }
@@ -84,7 +82,7 @@ function iterateCayleyDickson (given, iterations) {
   // operators
 
   function equality (a, b) {
-    for (let i = 0; i < dim; i++) {
+    for (var i = 0; i < dim; i++) {
       if (fieldDisequality(a[i], b[i])) {
         return false
       }
@@ -94,7 +92,7 @@ function iterateCayleyDickson (given, iterations) {
   }
 
   function contains (a) {
-    for (let i = 0; i < dim; i++) {
+    for (var i = 0; i < dim; i++) {
       if (fieldNotContains(a[i])) {
         return false
       }
@@ -112,10 +110,10 @@ function iterateCayleyDickson (given, iterations) {
 
     // b -> p looks like complex conjugation simmetry (:
     function conjugation (b) {
-      let p = [b[0]]
+      var p = [b[0]]
 
       // First, copy half of b into q.
-      for (let i = 1; i < dim; i++) {
+      for (var i = 1; i < dim; i++) {
         p.push(fieldNegation(b[i]))
       }
 
@@ -164,7 +162,7 @@ function iterateCayleyDickson (given, iterations) {
         s.push(b[i2])
       }
 
-      // let denote conj(x) as x`
+      // var denote conj(x) as x`
       //
       // Multiplication law is given by
       //
