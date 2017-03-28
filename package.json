@@ -46,6 +46,6 @@
     "tape": "^4.2.0"
   },
   "dependencies": {
-    "algebra-ring": "^0.5.0"
+    "algebra-ring": "^0.6.0"
   }
 }
