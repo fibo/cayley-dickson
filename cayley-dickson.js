@@ -1,5 +1,5 @@
-const ring = require('algebra-ring')
-const twoPow = Math.pow.bind(null, 2)
+var ring = require('algebra-ring')
+var twoPow = Math.pow.bind(null, 2)
 
 /**
  * Turn unary operator on single value to operator on n values.
@@ -51,25 +51,25 @@ function arrayfy2 (operator, dim) {
  */
 
 function iterateCayleyDickson (given, iterations) {
-  const field = ring([given.zero, given.one], given)
+  var field = ring([given.zero, given.one], given)
 
   if (iterations === 0) {
     return field
   }
 
-  const fieldZero = field.zero
-  const fieldOne = field.one
-  const fieldAddition = field.addition
-  const fieldMultiplication = field.multiplication
-  const fieldNegation = field.negation
-  const fieldDisequality = field.disequality
-  const fieldNotContains = field.notContains
+  var fieldZero = field.zero
+  var fieldOne = field.one
+  var fieldAddition = field.addition
+  var fieldMultiplication = field.multiplication
+  var fieldNegation = field.negation
+  var fieldDisequality = field.disequality
+  var fieldNotContains = field.notContains
 
   // identities
 
   var one = []
   var zero = []
-  const dim = twoPow(iterations)
+  var dim = twoPow(iterations)
 
   one.push(fieldOne)
   zero.push(fieldZero)
@@ -123,7 +123,7 @@ function iterateCayleyDickson (given, iterations) {
     return conjugation
   }
 
-  const conjugation = buildConjugation(fieldNegation, iterations)
+  var conjugation = buildConjugation(fieldNegation, iterations)
 
   function buildMultiplication (fieldAddition, fieldNegation, fieldMultiplication, iterations) {
     if (iterations === 0) {
@@ -189,7 +189,7 @@ function iterateCayleyDickson (given, iterations) {
 
   function norm (a) {
     var n = fieldZero
-    const squares = multiplication(a, conjugation(a))
+    var squares = multiplication(a, conjugation(a))
 
     for (var i = 0; i < dim; i++) {
       n = fieldAddition(n, squares[i])
@@ -199,8 +199,8 @@ function iterateCayleyDickson (given, iterations) {
   }
 
   function inversion (a) {
-    const n = norm(a)
-    const b = conjugation(a)
+    var n = norm(a)
+    var b = conjugation(a)
 
     for (var i = 0; i < dim; i++) {
       b[i] = field.division(b[i], n)
@@ -209,8 +209,8 @@ function iterateCayleyDickson (given, iterations) {
     return b
   }
 
-  const addition = arrayfy2(fieldAddition, dim)
-  const negation = arrayfy1(fieldNegation, dim)
+  var addition = arrayfy2(fieldAddition, dim)
+  var negation = arrayfy1(fieldNegation, dim)
 
   // Cayley-Dickson construction take a field as input but the result can be often a ring,
   // this means that it can be *not-commutative*.

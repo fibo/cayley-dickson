@@ -1,7 +1,7 @@
-const iterateCayleyDickson = require('cayley-dickson')
-const test = require('tape')
+var iterateCayleyDickson = require('cayley-dickson')
+var test = require('tape')
 
-const real = {
+var real = {
   zero: 0,
   one: 1,
   equality: (a, b) => (a === b),
@@ -13,7 +13,7 @@ const real = {
 }
 
 test('Real', (t) => {
-  const R = iterateCayleyDickson(real, 0)
+  var R = iterateCayleyDickson(real, 0)
 
   t.ok(R.equality(2, 2))
   t.ok(R.disequality(1, 2))
@@ -35,7 +35,7 @@ test('Real', (t) => {
 })
 
 test('Complex', (t) => {
-  const C = iterateCayleyDickson(real, 1)
+  var C = iterateCayleyDickson(real, 1)
 
   t.ok(C.equality([1, 2], [1, 2]))
   t.ok(C.disequality([1, 2], [0, 1]))
@@ -53,13 +53,13 @@ test('Complex', (t) => {
 })
 
 test('Quaternion', (t) => {
-  const H = iterateCayleyDickson(real, 2)
+  var H = iterateCayleyDickson(real, 2)
 
-  const minusOne = [-1, 0, 0, 0]
+  var minusOne = [-1, 0, 0, 0]
 
-  const i = [0, 1, 0, 0]
-  const j = [0, 0, 1, 0]
-  const k = [0, 0, 0, 1]
+  var i = [0, 1, 0, 0]
+  var j = [0, 0, 1, 0]
+  var k = [0, 0, 0, 1]
 
   t.ok(H.equality(H.multiplication(i, i), minusOne))
   t.ok(H.equality(H.multiplication(j, j), minusOne))
@@ -73,11 +73,11 @@ test('Quaternion', (t) => {
 })
 
 test('Octonion', (t) => {
-  const O = iterateCayleyDickson(real, 3)
+  var O = iterateCayleyDickson(real, 3)
 
-  const minusOne = [-1, 0, 0, 0, 0, 0, 0, 0]
+  var minusOne = [-1, 0, 0, 0, 0, 0, 0, 0]
 
-  const i1 = [0, 1, 0, 0, 0, 0, 0, 0]
+  var i1 = [0, 1, 0, 0, 0, 0, 0, 0]
 
   t.ok(O.equality(O.multiplication(i1, i1), minusOne))
 
