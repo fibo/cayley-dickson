@@ -7,9 +7,7 @@
     "check-deps": "npm outdated",
     "lint": "standard",
     "postversion": "git push origin v${npm_package_version}; npm publish; git push origin master",
-    "postupdate-deps": "npm test && git commit -am ':arrow_up: updated deps' || git checkout -- package.json",
     "test": "NODE_PATH=. tape test.js",
-    "update-deps": "npm update --save --dev",
     "watch": "npm-watch"
   },
   "pre-commit": [
