@@ -5,19 +5,15 @@
   "main": "cayley-dickson.js",
   "scripts": {
     "check-deps": "npm outdated",
-    "lint": "standard",
+    "lint": "standa",
     "postversion": "git push origin v${npm_package_version}; npm publish; git push origin master",
-    "test": "NODE_PATH=. tape test.js",
-    "watch": "npm-watch"
+    "test": "NODE_PATH=. tape test.js"
   },
   "pre-commit": [
     "lint",
     "test",
     "check-deps"
   ],
-  "watch": {
-    "test": "*.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fibo/cayley-dickson.git"
@@ -40,12 +36,11 @@
   },
   "homepage": "http://npm.im/cayley-dickson",
   "devDependencies": {
-    "npm-watch": "^0.1.4",
     "pre-commit": "^1.1.2",
-    "standard": "^9.0.2",
+    "standa": "^1.0.2",
     "tape": "^4.2.0"
   },
   "dependencies": {
-    "algebra-ring": "^0.6.0"
+    "algebra-ring": "^0.6.1"
   }
 }

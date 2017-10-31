@@ -11,9 +11,10 @@
 [Sedenion](#sedenion) |
 [License](#license)
 
-[![NPM version](https://badge.fury.io/js/cayley-dickson.svg)](http://badge.fury.io/js/cayley-dickson) [![Build Status](https://travis-ci.org/fibo/cayley-dickson.svg?branch=master)](https://travis-ci.org/fibo/cayley-dickson?branch=master) [![Dependency Status](https://gemnasium.com/fibo/cayley-dickson.svg)](https://gemnasium.com/fibo/cayley-dickson)
-
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+[![NPM version](https://badge.fury.io/js/cayley-dickson.svg)](http://badge.fury.io/js/cayley-dickson)
+[![Build Status](https://travis-ci.org/fibo/cayley-dickson.svg?branch=master)](https://travis-ci.org/fibo/cayley-dickson?branch=master)
+[![Dependency Status](https://gemnasium.com/fibo/cayley-dickson.svg)](https://gemnasium.com/fibo/cayley-dickson)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Installation
 
