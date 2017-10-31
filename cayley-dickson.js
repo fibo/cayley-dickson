@@ -112,7 +112,6 @@ function iterateCayleyDickson (given, iterations) {
     function conjugation (b) {
       var p = [b[0]]
 
-      // First, copy half of b into q.
       for (var i = 1; i < dim; i++) {
         p.push(fieldNegation(b[i]))
       }
