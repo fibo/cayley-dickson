@@ -37,7 +37,7 @@
   "homepage": "http://g14n.info/cayley-dickson",
   "devDependencies": {
     "pre-commit": "^1.1.2",
-    "standa": "^1.0.2",
+    "standa": "^1.1.0",
     "tape": "^4.2.0"
   },
   "dependencies": {
