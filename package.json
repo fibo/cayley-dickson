@@ -37,10 +37,10 @@
   "homepage": "http://g14n.info/cayley-dickson",
   "devDependencies": {
     "pre-commit": "^1.1.2",
-    "standa": "^1.1.0",
-    "tape": "^4.2.0"
+    "standa": "^2.0.1",
+    "tape": "^4.9.0"
   },
   "dependencies": {
-    "algebra-ring": "^0.6.1"
+    "algebra-ring": "^0.6.3"
   }
 }
