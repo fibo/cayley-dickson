@@ -5,7 +5,7 @@
   "main": "cayley-dickson.js",
   "scripts": {
     "check-deps": "npm outdated",
-    "lint": "standa",
+    "lint": "standa --fix",
     "postversion": "git push origin v${npm_package_version}; npm publish; git push origin master",
     "test": "NODE_PATH=. tape test.js"
   },
