@@ -6,14 +6,18 @@ var twoPow = Math.pow.bind(null, 2)
  */
 
 function arrayfy1 (operator, dim) {
-  return function (a) {
-    var b = []
+  if (dim === 1) {
+    return operator
+  } else {
+    return function (a) {
+      var b = []
 
-    for (var i = 0; i < dim; i++) {
-      b.push(operator(a[i]))
+      for (var i = 0; i < dim; i++) {
+        b.push(operator(a[i]))
+      }
+
+      return b
     }
-
-    return b
   }
 }
 
@@ -22,14 +26,18 @@ function arrayfy1 (operator, dim) {
  */
 
 function arrayfy2 (operator, dim) {
-  return function (a, b) {
-    var c = []
+  if (dim === 1) {
+    return operator
+  } else {
+    return function (a, b) {
+      var c = []
 
-    for (var i = 0; i < dim; i++) {
-      c.push(operator(a[i], b[i]))
+      for (var i = 0; i < dim; i++) {
+        c.push(operator(a[i], b[i]))
+      }
+
+      return c
     }
-
-    return c
   }
 }
 
@@ -126,7 +134,9 @@ function iterateCayleyDickson (given, iterations) {
 
   function buildMultiplication (fieldAddition, fieldNegation, fieldMultiplication, iterations) {
     if (iterations === 0) {
-      return function (a, b) { return [fieldMultiplication(a, b)] }
+      return function (a, b) {
+        return fieldMultiplication(a[0], b[0])
+      }
     }
 
     var dim = twoPow(iterations)
@@ -138,13 +148,8 @@ function iterateCayleyDickson (given, iterations) {
     var neg = arrayfy1(fieldNegation, halfDim)
 
     function multiplication (a, b) {
-      var c = []
-
-      //         a = (p, q)
-      //         +    +  +
-      //         b = (r, s)
-      //         =    =  =
-      // a + b = c = (t, u)
+      // a = (p, q)
+      // b = (r, s)
 
       var p = []
       var q = []
@@ -170,15 +175,21 @@ function iterateCayleyDickson (given, iterations) {
       var t = add(mul(p, r), neg(mul(conj(s), q)))
       var u = add(mul(s, p), mul(q, conj(r)))
 
-      for (var i3 = 0; i3 < halfDim; i3++) {
-        c.push(t[i3])
-      }
+      if (halfDim === 1) {
+        return [t, u]
+      } else {
+        var c = []
 
-      for (var i4 = 0; i4 < halfDim; i4++) {
-        c.push(u[i4])
-      }
+        for (var i3 = 0; i3 < halfDim; i3++) {
+          c.push(t[i3])
+        }
 
-      return c
+        for (var i4 = 0; i4 < halfDim; i4++) {
+          c.push(u[i4])
+        }
+
+        return c
+      }
     }
 
     return multiplication
